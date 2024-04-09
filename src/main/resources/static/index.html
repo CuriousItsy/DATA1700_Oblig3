@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ticket Registration Form</title>
+    <style>
+        .error {
+            color: red;
+        }
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>Order Movie Tickets</h1>
+<form id="ticketForm">
+    <label for ="film" >Choose a film:</label>
+    <select id="film">
+        <option>Inception</option>
+        <option>Interstellar</option>
+        <option>Star Wars</option>
+        <option>The Untouchables</option>
+        <option>Liar Liar</option>
+        <option>The Mask</option>
+        <option>Asterisk and Obelisk</option>
+        <option>Hansel and Gretel</option>
+        <option>Puss In Boots</option>
+        <option>The Magical Crown</option>
+    </select><span id="filmError" class="error"></span>
+    <br/><br/>
+    <label for="number">Number:</label>
+    <input type="number" id="number" name="number"><span id="numberError" class="error"></span>
+    <br/><br/>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName"><span id="firstNameError" class="error"></span>
+    <br/><br/>
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName"><span id="lastNameError" class="error"></span>
+    <br/><br/>
+    <label for="phone">Telephone number:</label>
+    <input type="tel" id="phone" name="phone"><span id="phoneError" class="error"></span>
+    <br/><br/>
+    <label for="email">Email:</label>
+    <input type="email" id="email"><span id="emailError" class="error"></span>
+    <br/><br/>
+    <button type="button" onclick="buyTicket();">Buy ticket</button>
+</form>
+<h2>All tickets</h2>
+<br/><br/>
+<div id="tickets"></div>
+<button type = "button" onclick="deleteAllTickets();">Delete all tickets</button>
+<script src="js.js"></script>
+</body>
+</html>
