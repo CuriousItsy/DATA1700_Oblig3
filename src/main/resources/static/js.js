@@ -64,7 +64,7 @@ function buyTicket() {
             email: email
         }
 
-        $.post("/saveTicket", ticket, function(){
+        $.get("/saveTicket", ticket, function(){
             getTickets();
         });
 
@@ -92,8 +92,8 @@ function displayTickets(tickets) {
     for (let i = 0; i < tickets.length; i++) {
         ticketDiv.innerHTML += JSON.stringify(tickets[i]) + "<br>";
     }*/
-    let ut ="<table><tr><th> Film: </th><th> Film: </th><th> Film: </th>" +
-        "<th> Number of tickets: </th><th> First name: </th><th> Last name: </th>" +
+    let ut ="<table><tr><th> Film: </th><th>" +
+        "Number of tickets: </th><th> First name: </th><th> Last name: </th>" +
         "<th> Phone: </th><th> Email: </th></tr>";
     for(const ticket of tickets){
         ut+="<tr><td>"+ ticket.film+ "</td><td>"+ticket.number+ "</td><td>"
@@ -105,7 +105,7 @@ function displayTickets(tickets) {
 }
 
 function deleteAllTickets() {
-    $.post("/deleteAllTickets", function() {
+    $.get("/deleteAllTickets", function() {
         getTickets();
     });
 }
