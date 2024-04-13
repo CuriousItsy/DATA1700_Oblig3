@@ -1,3 +1,4 @@
+package oslomet.data1700_oblig3;
 
 public class Ticket {
     private String film;
