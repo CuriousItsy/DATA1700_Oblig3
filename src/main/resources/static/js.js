@@ -78,6 +78,28 @@
     }
 }
 */
+const textPattern = /^[a-zA-Z\s]*$/;
+const numberPattern = /^[0-9]+$/; // Allows only numbers
+const phonePattern = /^[0-9]{10}$/; // Assuming a 10-digit phone number
+const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+const validateInput = ticket => {
+    // Check for empty fields
+    if (!ticket.film || !ticket.number || !ticket.firstName ||
+        !ticket.lastName || !ticket.phone || !ticket.email) {
+        return false;
+    }
+
+    // Validate data types
+    if (!textPattern.test(ticket.film) || !numberPattern.test(ticket.number) ||
+        !textPattern.test(ticket.firstName) || !textPattern.test(ticket.lastName) ||
+        !phonePattern.test(ticket.phone) || !emailPattern.test(ticket.email)) {
+        return false;
+    }
+
+    return true;
+};
+
 
 $(() => {
     $("#regTicket").click(() => {
@@ -97,7 +119,7 @@ $(() => {
             email: email.val()
         };
 
-        if (inputval(ticket)) {
+        if (validateInput(ticket)) {
             $.post("/saveTicket", ticket, () => hent());
             film.val("");
             number.val("");
@@ -106,7 +128,41 @@ $(() => {
             phone.val("");
             email.val("");
         } else {
-            console.log("Please, fill in the missing data");
+            if (!textPattern.test(ticket.film) || !ticket.film) {
+                $("#filmError").text("Please choose a film.");
+            } else {
+                $("#filmError").text("");
+            }
+
+            if (!numberPattern.test(ticket.number) || !ticket.number) {
+                $("#numberError").text("Please enter a valid number of tickets.");
+            } else {
+                $("#numberError").text("");
+            }
+
+            if (!textPattern.test(ticket.firstName) || !ticket.firstName) {
+                $("#firstNameError").text("Please enter a valid first name.");
+            } else {
+                $("#firstNameError").text("");
+            }
+
+            if (!textPattern.test(ticket.lastName) || !ticket.lastName) {
+                $("#lastNameError").text("Please enter a valid last name.");
+            } else {
+                $("#lastNameError").text("");
+            }
+
+            if (!phonePattern.test(ticket.phone) || !ticket.phone) {
+                $("#phoneError").text("Please enter a valid phone number.");
+            } else {
+                $("#phoneError").text("");
+            }
+
+            if (!emailPattern.test(ticket.email) || !ticket.email) {
+                $("#emailError").text("Please enter a valid email address.");
+            } else {
+                $("#emailError").text("");
+            }
         }
     });
     $("#deleteTickets").click(() => {

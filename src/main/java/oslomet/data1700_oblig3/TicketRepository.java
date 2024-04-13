@@ -19,17 +19,22 @@ public class TicketRepository {
     public void saveTicket(Ticket ticket) {
         String sql = "INSERT INTO Ticket (film, number, firstName, lastName, phone, email)" +
                 " VALUES (?, ?, ?, ?, ?, ?)";
-        db.update(sql, ticket.getFilm(), ticket.getNumber(),
-                ticket.getFirstName(), ticket.getLastName(), ticket.getPhone(),
-                ticket.getEmail());
 
-    }
+            db.update(sql, ticket.getFilm(), ticket.getNumber(),
+                    ticket.getFirstName(), ticket.getLastName(), ticket.getPhone(),
+                    ticket.getEmail());
+
+        }
+
+
 
     public List<Ticket> getTickets() {
         String sql = "SELECT * FROM Ticket";
-        List<Ticket> allTickets = db.query(sql,
-                new BeanPropertyRowMapper<>(Ticket.class));
-        return allTickets;
+
+            List<Ticket> allTickets = db.query(sql,
+                    new BeanPropertyRowMapper<>(Ticket.class));
+            return allTickets;
+
     }
 
     public void deleteAllTickets() {
