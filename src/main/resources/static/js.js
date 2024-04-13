@@ -1,4 +1,4 @@
-function buyTicket() {
+/*function regTicket() {
     // Extract form values
     let film = document.getElementById("film").value;
     let number = document.getElementById("number").value;
@@ -64,7 +64,7 @@ function buyTicket() {
             email: email
         }
 
-        $.get("/saveTicket", ticket, function(){
+        $.post("/saveTicket", ticket, function(){
             getTickets();
         });
 
@@ -77,35 +77,106 @@ function buyTicket() {
         document.getElementById("email").value = '';
     }
 }
+*/
 
-function getTickets() {
-    $.get( "/getTickets", function( data ) {
-        displayTickets(data);
+$(() => {
+    $("#regTicket").click(() => {
+        const film = $("#film");
+        const number = $("#number");
+        const firstName = $("#firstName");
+        const lastName = $("#lastName");
+        const phone = $("#phone");
+        const email = $("#email");
+
+        const ticket = {
+            film: film.val(),
+            number: number.val(),
+            firstName: firstName.val(),
+            lastName: lastName.val(),
+            phone: phone.val(),
+            email: email.val()
+        };
+
+        if (inputval(ticket)) {
+            $.post("/saveTicket", ticket, () => hent());
+            film.val("");
+            number.val("");
+            firstName.val("");
+            lastName.val("");
+            phone.val("");
+            email.val("");
+        } else {
+            console.log("Please, fill in the missing data");
+        }
+    });
+    $("#deleteTickets").click(() => {
+        $.ajax("/deleteAllTickets", {
+            type: 'DELETE',
+            success: () => hent(),
+            error: (jqXhr, textStatus, errorMessage) => console.log(errorMessage)
+        });
+    });
+});
+
+const hent = () => $.get("/getTickets", ticket => format(ticket));
+const inputval = ticket => {
+    if (ticket.film === "") return false
+    else if (ticket.number === "") return false
+    else if (ticket.firstName === "") return false
+    else if (ticket.lastName === "") return false
+    else if (ticket.phone === "") return false
+    else return ticket.email !== "";
+}
+
+const format = tickets => {
+    let ut = "<table><tr><th>Film</th><th>Number of tickets</th><th>First name</th>" +
+        "<th>Last name</th><th>Phone</th><th>Email</th></tr>";
+
+    for (let ticket of tickets) {
+        ut += "<tr><td>" + ticket.film + "</td><td>" + ticket.number + "</td><td>" + ticket.firstName + "</td>" +
+            "<td>" + ticket.lastName + "</td><td>" + ticket.phone + "</td><td>" + ticket.email + "</td></tr>";
+    }
+
+    ut += "</table>";
+
+    $("#tickets").html(ut);
+}
+
+
+
+/*function getTickets() {
+    $.get( "/getTickets", function(updatedTickets) {
+        displayTickets(updatedTickets);
     });
 }
 
 function displayTickets(tickets) {
-    /*let ticketDiv = document.getElementById("tickets");
+    let ticketDiv = document.getElementById("tickets");
     ticketDiv.innerHTML = ""; // clear existing tickets
 
     // loop through all tickets and display
     for (let i = 0; i < tickets.length; i++) {
         ticketDiv.innerHTML += JSON.stringify(tickets[i]) + "<br>";
-    }*/
-    let ut ="<table><tr><th> Film: </th><th>" +
-        "Number of tickets: </th><th> First name: </th><th> Last name: </th>" +
-        "<th> Phone: </th><th> Email: </th></tr>";
+        console.log(tickets);
+    }
+    /*let ut ="<table><tr><th> Film: </th><th>" +
+        "Number of tickets: </th><th> First name: </th><th> Last name: </th><th>" +
+        " Phone: </th><th> Email: </th></tr>";
     for(const ticket of tickets){
         ut+="<tr><td>"+ ticket.film+ "</td><td>"+ticket.number+ "</td><td>"
         +ticket.firstName+ "</td><td>"+ticket.lastName+ "</td><td>"+ticket.phone+ "</td><td>"
         +ticket.email+ "</td></tr>";
     }
     ut+="</table>";
-    $("#tickets").html(ut);
-}
+    $("#tickets").html(ut);*/
+/*}
 
 function deleteAllTickets() {
-    $.get("/deleteAllTickets", function() {
-        getTickets();
+    $.ajax({
+        url: '/deleteAllTickets',
+        type: 'DELETE',
+        success: function() {
+            getTickets();
+        }
     });
-}
+}*/

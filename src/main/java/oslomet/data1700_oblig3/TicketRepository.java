@@ -1,3 +1,5 @@
+package oslomet.data1700_oblig3;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -20,6 +22,7 @@ public class TicketRepository {
         db.update(sql, ticket.getFilm(), ticket.getNumber(),
                 ticket.getFirstName(), ticket.getLastName(), ticket.getPhone(),
                 ticket.getEmail());
+
     }
 
     public List<Ticket> getTickets() {
